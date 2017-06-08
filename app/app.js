@@ -5,8 +5,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './app.vue'
 
-import 'reset-css'
-import './app.css'
+import './base.css'
 
 Vue.use(VueRouter)
 
