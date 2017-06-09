@@ -1,14 +1,28 @@
 <template>
     <div id="app">
         <header class="site-header">
-            <a class="button button--back button--circle">&lt;</a>
-            <div class="main-column flex flex-row">
-                <h1 class="site-title">Questions</h1>
-                <a class="button button--circle button--plus">+</a>
-            </div>
-            <div class="main-column flex flex-row">
-                <input></input>
-                <a class="button">Search</a>
+            <a class="button button--back--circle">
+                <span class="icon ion-ios-arrow-back"></span>
+            </a>
+            <div class="main-column">
+                <div class="site-header__first flex flex-row">
+                    <h1 class="site-title">Questions</h1>
+                    <a class="button button--plus">
+                        <span class="icon ion-plus-circled"></span>
+                    </a>
+                    <div class="flex-fill"></div>
+                    <div class="site-header__mode-switch">
+                        <input type="radio">My shelf</input>
+                        <input type="radio">All questions</input>
+                    </div>
+                    <div class="site-header__sorting">
+                            <span>Sort by: <a>recent</a> or <a>hot</a></span>
+                    </div>
+                </div>
+                <div class="search flex flex-row">
+                    <input class="search__input flex-fill"></input>
+                    <a class="button button--search">Search</a>
+                </div>
             </div>
         </header>
         <div id="backplane">
@@ -32,7 +46,7 @@ export default {
                 {
                     author: {
                         name: "Eva",
-                        avatarUrl: "https://source.unsplash.com/random/100x100?face&sig=1"
+                        avatar: "https://source.unsplash.com/random/100x100?face&sig=1"
                     },
                     question: "Will insulin make my patient gain weight?",
                     status: "asked"
@@ -40,7 +54,7 @@ export default {
                 {
                     author: {
                         name: "Andrew",
-                        avatarUrl: "https://source.unsplash.com/random/100x100?face&sig=2"
+                        avatar: "https://source.unsplash.com/random/100x100?face&sig=2"
                     },
                     question: "Questioning the Idea of Good Carbs, Bad Carbs?",
                     status: "asked"
@@ -59,15 +73,13 @@ export default {
 <style lang="scss">
 $color-question-accent: #DFF3FD;
 
-.text-display {
-    font-family: Cuprum, sans-serif;
-}
 [class*="--fancy"] {
     font-family: "Libre Baskerville", serif;
     font-style: italic;
 }
 #app {
     height: 100%;
+    overflow: auto;
 }
 .card {
     background: white;
@@ -78,6 +90,7 @@ $color-question-accent: #DFF3FD;
 .flex {
     display: flex;
 }
+
 .flex--row {
     flex-direction: row;
 }
@@ -89,6 +102,7 @@ $color-question-accent: #DFF3FD;
 .flex-fill {
     flex:1;
 }
+
 #backplane {
     height: 100%;
     margin: 0px 40px 40px 40px;
@@ -101,21 +115,32 @@ $color-question-accent: #DFF3FD;
     margin: 0 auto;
 }
 .site-header {
-    padding: 2em 240px 0 240px;
-    padding-bottom: 20px;
     background: white;
+    padding-bottom: 20px;
+    padding: 2rem 240px 1rem 240px;
     position: relative;
+    width: 100%;
     z-index: 2;
-
 }
 
 .highlight {
     color: #0266B3;
 }
 
+.site-header__mode-switch {}
 
+.site-header__sorting {
+    width: 150px;
+    margin-left: 45px;
+    text-align: right;
+}
+
+.site-header__first {
+    justify-content: space-between;
+    align-items: center;
+}
 .site-title {
-    margin: 3px;
+    margin-right: 1rem;
     text-transform: uppercase;
     font-weight: bold;
     display: inline-block;
@@ -123,39 +148,49 @@ $color-question-accent: #DFF3FD;
     letter-spacing: 1px;
 }
 
-
-.button--back {
-    width: 1em;
-    height: 1em;
-    padding: 3px;
-    position: absolute;
-    left: 60px;
-    top: 10px;
-}
-
-.button.button--plus {
-    color: white;
-    padding: 1px;
-    background: #0266B3;
-    border: none;
-    content: "+";
-    width: 1em;
-    height: 1em;
-}
-
-
 .button {
-    display: inline-block;
+    display: block;
     border: 1px solid #B4B5B8;
     color: #B4B5B8;
 }
 
-.button--circle {
+[class*="--back"].button {
+    width: 1em;
+    height: 1em;
+    margin-top: 2rem;
     text-align: center;
-    font-size: 1.5em;
+    font-size: 1.8rem;
+    padding-top: 1px;
+    padding-right: 2px;
+    position: absolute;
+    left: 60px;
+    top: 0;
+}
+.button.button--search {
+    min-width: 150px;
+    width: 150px;
+    margin-left: 45px;
+    text-transform: uppercase;
+    text-align: center;
+    padding: .5rem 0;
+}
+
+[class*="--plus"].button {
+    color: #0266B3;
+    background: white;
+    border: none;
     border-radius: 50%;
     text-align: center;
-    vertical-align: baseline;
+    align-self: center;
+    height: 1em;
+    width: 1em;
+    font-size: 1.8rem;
+    font-family: sans-serif;
+}
+
+[class*="--circle"].button {
+    border-radius: 50%;
+    text-align: center;
 }
 
 
