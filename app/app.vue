@@ -116,8 +116,7 @@ $color-question-accent: #DFF3FD;
 }
 .site-header {
     background: white;
-    padding-bottom: 20px;
-    padding: 2rem 240px 1rem 240px;
+    padding: 2rem 240px 1.5rem 240px;
     position: relative;
     width: 100%;
     z-index: 2;
@@ -138,6 +137,7 @@ $color-question-accent: #DFF3FD;
 .site-header__first {
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 1rem;
 }
 .site-title {
     margin-right: 1rem;
@@ -154,10 +154,12 @@ $color-question-accent: #DFF3FD;
     color: #B4B5B8;
 }
 
+
 [class*="--back"].button {
     width: 1em;
     height: 1em;
     margin-top: 2rem;
+    margin-right: 1rem;
     text-align: center;
     font-size: 1.8rem;
     padding-top: 1px;
@@ -186,6 +188,10 @@ $color-question-accent: #DFF3FD;
     width: 1em;
     font-size: 1.8rem;
     font-family: sans-serif;
+}
+
+[class*="--plus"].button:hover {
+    color: darken(#0266B3, 10%);
 }
 
 [class*="--circle"].button {

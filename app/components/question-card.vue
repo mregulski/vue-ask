@@ -6,7 +6,7 @@
         <header class="question__header flex flex--row">
             <figure class="question__avatar">
                 <div class="avatar-box">
-                    <img :src="question.author.avatarUrl" alt="$user's profile picture" />
+                    <img :src="question.author.avatar" alt="$user's profile picture" />
                 </div>
             </figure>
             <div class="question__title flex flex--column flex-fill">
@@ -19,16 +19,20 @@
             <div class="question__spacer"></div>
         </header>
         <div class="question__content flex flex--row">
-            <div class="question__status flex-fill">
+            <div class="question__status flex flex--column">
+                <div class="flex-fill"></div>
                 <span class="activity-title">Asked</span>
                 <div class="dot dot--inactive"></div>
             </div>
             <div class="question__activity flex flex--row">
+                <activity-card :card="cardsToShow[0]"></activity-card>
+                <activity-card v-for="card in cardsToShow.slice(1)" :card="card">
+
+                </activity-card>
+                <!--<activity-card></activity-card>
                 <activity-card></activity-card>
                 <activity-card></activity-card>
-                <activity-card></activity-card>
-                <activity-card></activity-card>
-                <activity-card></activity-card>
+                <activity-card></activity-card>-->
             </div>
             <div class="question__stats flex flex--column">
                 <span class="question__stats-item">1 related discussion</span>
@@ -45,12 +49,15 @@ export default {
     props: ['question'],
     data: function () {
         return {
-            cards: [{ img: "none", text: "text" }]
+            cards: [
+                { type: "summary", count: 2 },
+                { type: "single", user: {name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=1" }, action: "commented"},
+            ]
         }
     },
-    methods: {
+    computed: {
         cardsToShow: function () {
-            return cards
+            return this.cards
         }
     },
     components: {ActivityCard}
@@ -116,6 +123,7 @@ export default {
             background: white;
             width: 100%;
             padding-top: 40px;
+            justify-content: flex-start
         }
 
         .question__stats {
@@ -134,10 +142,12 @@ export default {
 .activity-title {
     display: block;
     width: 80%;
+    font-size: .8em;
     border-top: 1px solid #7D8B93;
     padding-top: .5em;
     text-align: center;
     margin: 0 auto;
+    margin-bottom: 10px;
     color: #7D8B93;
     text-transform: uppercase;
 

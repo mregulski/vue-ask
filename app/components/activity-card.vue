@@ -3,13 +3,34 @@ A card representing an activity in a question e.g. users answering on commenting
 -->
 
 <template>
-    <div class="activity">
-        activity
+    <div v-if="card.type === 'single'" class="activity activity--single">
+        <div class="avatar-box">
+            <img :src="avatarUrl"/>
+        </div>
+        <span class="activity-title">Commented</span>
+        <div class="dot dot--inactive"></div>
+    </div>
+    <div v-else class="activity activity--summary">
+        <p class="summary__count">
+            {{ card.count }}
+        </p>
+        <span class="activity-title">More activities</span>
+        <div class="dot dot--inactive"></div>
     </div>
 </template>
 
 <script>
 export default {
+    props: ['card'],
+    data: function() {
+        return {
+        }
+    },
+    computed: {
+        avatarUrl: function() {
+            return this.card.user.avatar
+        }
+    },
 
 }
 </script>
@@ -20,7 +41,33 @@ export default {
     height: 155px;
     display: flex;
     flex-direction: column;
-    border: 1px dashed red;
-    margin: 0 auto;
+    /*border: 1px dashed red;*/
+    margin-right: 20px;
+    position: relative;
 }
+
+.activity:first-child {
+    margin-left: 20px;
+}
+
+.activity--single {
+    background: #EEEEEE;
+}
+
+.activity--summary {
+    font-family: "Libre Baskerville", serif;
+}
+.activity--summary > p {
+    margin: auto;
+}
+
+.activity--summary > .activity-title {
+    color: black;
+    border-top: none;
+    font-family: "Libre Baskerville", serif;
+    text-transform: lowercase;
+}
+/*.activity:first-child {
+    margin-left: 20px;
+}*/
 </style>
