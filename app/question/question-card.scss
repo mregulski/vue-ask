@@ -1,4 +1,4 @@
-@import "../imports.scss";
+@import "../css/imports.scss";
 
 .activity-title {
     display: block;
@@ -13,16 +13,7 @@
     text-transform: uppercase;
 }
 
-.avatar-box {
-    @include circle($avatar-size);
-    overflow: hidden;
-    margin: auto;
-}
 
-.avatar-box > img { /* prevent squashing the aspect ratio*/
-    height: $avatar-size;
-    min-width: $avatar-size;
-}
 .dot {
     width: 10px;
     height: 10px;

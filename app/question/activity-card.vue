@@ -4,9 +4,8 @@ A card representing an activity in a question e.g. users answering on commenting
 
 <template>
     <div v-if="card.type === 'single'" class="activity activity--single">
-        <div class="avatar-box">
-            <img :src="avatarUrl"/>
-        </div>
+        <avatar :src="card.user.avatar">
+                </avatar>
         <span class="activity-title">Commented</span>
         <div class="dot dot--inactive"></div>
     </div>
@@ -20,6 +19,7 @@ A card representing an activity in a question e.g. users answering on commenting
 </template>
 
 <script>
+import Avatar from '../components/avatar.vue'
 export default {
     props: ['card'],
     data: function() {
@@ -31,12 +31,13 @@ export default {
             return this.card.user.avatar
         }
     },
+    components: {Avatar}
 
 }
 </script>
 
 <style lang="scss">
-@import "../imports.scss";
+@import "../css/imports.scss";
 .activity {
     width: 90px;
     height: 155px;

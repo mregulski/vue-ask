@@ -30,8 +30,8 @@
                 <div v-if="page==='home'">
                     <home-page></home-page>
                 </div>
-                <div v-else-if="page==='single'">
-                    <question-page ></question-page>
+                <div v-else-if="page==='question'">
+                    <question-page :question="selectedQuestion" :isSummary="true"></question-page>
                 </div>
             </div>
         </div>
@@ -39,19 +39,28 @@
 </template>
 
 <script>
-import HomePage from './home/home-page.vue'
-import QuestionPage from './single/question-page.vue'
+import HomePage from './home-page.vue'
+import QuestionPage from './question/question-page.vue'
 export default {
+
     data: function () {
         return {
             appname: "vue-ask",
-            page: "home"
+            page: "question",
+            // page: "home",
+            selectedQuestion: {
+                    author: {
+                        name: "Eva",
+                        avatar: "https://source.unsplash.com/random/100x100?face&sig=1"
+                    },
+                    question: "Will insulin make my patient gain weight?",
+                    status: "asked"
+                }
         }
     },
     components: {
         HomePage,
         QuestionPage
-
     },
     methods: {
     }
@@ -60,7 +69,7 @@ export default {
 
 
 <style lang="scss">
-@import "./colors.scss";
+@import "./css/colors.scss";
 
 // todo: header sizes
 .fancy {

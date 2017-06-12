@@ -1,6 +1,6 @@
 <template>
     <div>
-        <question-card v-for="question in questions" :question="question"></question-card>
+        <question-card v-for="question in questions" :isSummary="true" :question="question"></question-card>
         <div class="card main-column">
             <a class="more-questions">load more questions</a>
         </div>
@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import QuestionCard from './question-card.vue'
+import QuestionCard from './question/question-card.vue'
 
 export default {
     data: function () {
