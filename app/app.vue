@@ -104,22 +104,23 @@ export default {
 }
 
 #backplane {
-    margin: 0px 40px 40px 40px;
-    padding: 0 200px;
+    // margin: 0px 40px 40px 40px;
+    // padding: 0 2px;
     background: #FBFBFB;
+}
+.site-header {
+    background: white;
+    padding: 2rem 40px 1.5rem 80px;
+    position: relative;
+    width: 100%;
+    z-index: 2;
 }
 
 .main-column {
     max-width: 1200px;
     margin: 0 auto;
 }
-.site-header {
-    background: white;
-    padding: 2rem 240px 1.5rem 240px;
-    position: relative;
-    width: 100%;
-    z-index: 2;
-}
+
 
 .highlight {
     color: $color-highlight;
@@ -154,19 +155,7 @@ export default {
 }
 
 
-[class*="--back"].button {
-    width: 1em;
-    height: 1em;
-    margin-top: 2rem;
-    margin-right: 1rem;
-    text-align: center;
-    font-size: 1.8rem;
-    padding-top: 1px;
-    padding-right: 2px;
-    position: absolute;
-    left: 60px;
-    top: 0;
-}
+
 .button.button--search {
     min-width: 150px;
     width: 150px;
@@ -197,6 +186,34 @@ export default {
     border-radius: 50%;
     text-align: center;
 }
+[class*="--back"].button {
+    width: 1em;
+    height: 1em;
+    margin-top: 2rem;
+    margin-right: 1rem;
+    text-align: center;
+    font-size: 1.8rem;
+    padding-top: 1px;
+    padding-right: 2px;
+    position: absolute;
+    left: 10px;
+    top: 0;
+}
+@media screen and (min-width: 1280px) {
+    #backplane {
+        margin: 0px 40px 40px 40px;
+        padding: 0 200px;
+    }
+    .site-header {
+         padding: 2rem 240px 1.5rem 240px;
+    }
+
+    [class*="--back"].button {
+        left: 60px;
+    }
+}
+
+
 
 
 </style>

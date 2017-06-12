@@ -2,7 +2,8 @@
     A single question component for the front page
 -->
 <template>
-    <section class="card story" :class="{summary: isSummary}">
+    <section class="card story"
+        :class="{'story--summary': isSummary, 'story--single': !isSummary}">
         <header class="story__row-1">
             <figure class="story__avatar story__col-1">
                 <avatar :src="question.author.avatar">
@@ -148,9 +149,8 @@ $color-highlight: #0266B3;
     padding-bottom: 40px;
 }
 /* layout */
-.story:not(:first-child):not(.summary) {
-    padding-top: 40px;
-
+.story.story--single {
+    margin-bottom: 2em;
 }
 .story__col-1 {
     @include coloredBg();
