@@ -10,11 +10,11 @@
                 </div>
             </figure>
             <div class="question__title flex flex--column flex-fill">
-                <p>
-                    <span class="user__name">{{question.author.name}}</span>
+                <p class="question__intro">
+                    <span class="user__name highlight">{{question.author.name}}</span>
                     <span class="text--action"> is asking:</span>
                 </p>
-                <h2 class="header--fancy">{{question.question}}</h2>
+                <h2 class="header fancy highlight">{{question.question}}</h2>
             </div>
             <div class="question__spacer"></div>
         </header>
@@ -25,8 +25,8 @@
                 <div class="dot dot--inactive"></div>
             </div>
             <div class="question__activity flex flex--row">
-                <activity-card :card="cardsToShow[0]"></activity-card>
-                <activity-card v-for="card in cardsToShow.slice(1)" :card="card">
+                <activity-card v-if="cards.length > maxCards" :card="summary"></activity-card>
+                <activity-card v-for="card in cardsToShow" :card="card">
 
                 </activity-card>
                 <!--<activity-card></activity-card>
@@ -34,10 +34,10 @@
                 <activity-card></activity-card>
                 <activity-card></activity-card>-->
             </div>
-            <div class="question__stats flex flex--column">
-                <span class="question__stats-item">1 related discussion</span>
-                <span class="question__stats-item">6 peers involved</span>
-                <span class="question__stats-item">3 conversations</span>
+            <div class="question__stats fancy flex flex--column">
+                <span class="question__stats-item"><span class="number">1</span>related discussion</span>
+                <span class="question__stats-item"><span class="number">6</span>peers involved</span>
+                <span class="question__stats-item"><span class="number">3</span>conversations</span>
             </div>
         </div>
     </section>
@@ -65,7 +65,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .dot {
     width: 10px;
     height: 10px;
@@ -98,6 +97,13 @@ export default {
         }
         .question__title {
             background: #DFF3FD;
+        }
+        .question__intro {
+            margin-top:1em;
+            margin-bottom: .5em;
+        }
+        .user__name {
+            font-weight: bold;
         }
 
         .question__spacer {
@@ -132,11 +138,21 @@ export default {
             width: 150px;
             min-width: 150px;
             margin-left: 45px;
+            margin-right: 1em;
         }
 
             .question__stats > :nth-child(2) {
                 margin-top:30%;
                 margin-bottom: 30%;
+            }
+
+            .question__stats-item {
+                font-size: .83rem;
+            }
+            .question__stats-item > .number {
+                font-weight: bold;
+                margin-right: 1em;
+                font-size: .9rem;
             }
 
 .activity-title {

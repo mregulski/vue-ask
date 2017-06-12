@@ -27,56 +27,47 @@
         </header>
         <div id="backplane">
             <div id="content" class="main-column">
-                <template v-for="question in questions">
-                    <question-card :question="question"></question-card>
-                </template>
+                <div v-if="page==='home'">
+                    <home-page></home-page>
+                </div>
+                <div v-else-if="page==='single'">
+                    <question-page></question-page>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import QuestionCard from './components/question-card.vue'
-
+import HomePage from './home/home-page.vue'
+import QuestionPage from './single/question-page.vue'
 export default {
     data: function () {
         return {
             appname: "vue-ask",
-            questions: [
-                {
-                    author: {
-                        name: "Eva",
-                        avatar: "https://source.unsplash.com/random/100x100?face&sig=1"
-                    },
-                    question: "Will insulin make my patient gain weight?",
-                    status: "asked"
-                },
-                {
-                    author: {
-                        name: "Andrew",
-                        avatar: "https://source.unsplash.com/random/100x100?face&sig=2"
-                    },
-                    question: "Questioning the Idea of Good Carbs, Bad Carbs?",
-                    status: "asked"
-                }]
+            page: "home"
         }
     },
     created: function () {
-        console.log("app: created")
     }, components: {
-        QuestionCard
+        HomePage,
+        QuestionPage
+
     }
 }
 </script>
 
 
 <style lang="scss">
-$color-question-accent: #DFF3FD;
+$color-blue-light: #DFF3FD;
+$color-highlight: #0266B3;
 
-[class*="--fancy"] {
+// todo: header sizes
+.fancy {
     font-family: "Libre Baskerville", serif;
     font-style: italic;
 }
+
 #app {
     height: 100%;
     overflow: auto;
@@ -104,7 +95,6 @@ $color-question-accent: #DFF3FD;
 }
 
 #backplane {
-    height: 100%;
     margin: 0px 40px 40px 40px;
     padding: 0 200px;
     background: #FBFBFB;
@@ -123,7 +113,7 @@ $color-question-accent: #DFF3FD;
 }
 
 .highlight {
-    color: #0266B3;
+    color: $color-highlight;
 }
 
 .site-header__mode-switch {}

@@ -46,6 +46,12 @@ export default {
     position: relative;
 }
 
+.activity > :first-child {
+    width: 60px;
+    height: 60px;
+    margin-top: 20%;
+}
+
 .activity:first-child {
     margin-left: 20px;
 }
@@ -59,6 +65,8 @@ export default {
 }
 .activity--summary > p {
     margin: auto;
+    text-align: center;
+    line-height: 60px;
 }
 
 .activity--summary > .activity-title {
