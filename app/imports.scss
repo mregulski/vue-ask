@@ -1,0 +1,22 @@
+$activity-gutter: 9.5px;
+$activity-width: 90px;
+$activity-top-gutter: 32px;
+$avatar-size: 50px;
+
+@mixin fancy($size: 1em) {
+    font-family: "Libre Baskerville", serif;
+    font-style: italic;
+    font-size: $size;
+}
+
+@mixin circle($radius) {
+    width: $radius;
+    height: $radius;
+    border-radius: 50%;
+
+}
+
+@mixin flex($dir) {
+    display: flex;
+    flex-direction: $dir;
+}

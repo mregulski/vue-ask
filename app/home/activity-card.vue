@@ -35,25 +35,27 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import "../imports.scss";
 .activity {
     width: 90px;
     height: 155px;
     display: flex;
     flex-direction: column;
-    /*border: 1px dashed red;*/
-    margin-right: 20px;
+    margin-right: $activity-gutter;
     position: relative;
 }
 
 .activity > :first-child {
-    width: 60px;
-    height: 60px;
     margin-top: 20%;
 }
 
+.activity:last-child {
+    margin-right: 0px;
+}
+
 .activity:first-child {
-    margin-left: 20px;
+    margin-left: 10px;
 }
 
 .activity--single {

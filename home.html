@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Questionss</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+</head>
+
+<body>
+    <div id="app">
+        <header class="site-header">
+            <a class="button button--back--circle">
+                <span class="icon ion-ios-arrow-back"></span>
+            </a>
+            <div class="main-column">
+                <div class="site-header__first flex flex-row">
+                    <h1 class="site-title">Questions</h1>
+                    <a class="button button--plus">
+                        <span class="icon ion-plus-circled"></span>
+                    </a>
+                    <div class="flex-fill"></div>
+                    <div class="site-header__mode-switch">
+                        <input type="radio">My shelf</input>
+                        <input type="radio">All questions</input>
+                    </div>
+                    <div class="site-header__sorting">
+                        <span>Sort by: <a>recent</a> or <a>hot</a></span>
+                    </div>
+                </div>
+                <div class="search flex flex-row">
+                    <input class="search__input flex-fill"></input>
+                    <a class="button button--search">Search</a>
+                </div>
+            </div>
+        </header>
+        <div id="backplane">
+            <div id="content" class="main-column">
+                <div>
+                    <section class="card question">
+                        <header class="question__header flex flex--row">
+                            <figure class="question__avatar">
+                                <div class="avatar-box">
+                                    <img :src="question.author.avatar" alt="$user's profile picture" />
+                                </div>
+                            </figure>
+                            <div class="question__title flex flex--column flex-fill">
+                                <p class="question__intro">
+                                    <span class="user__name highlight">{{question.author.name}}</span>
+                                    <span class="text--action"> is asking:</span>
+                                </p>
+                                <h2 class="header fancy highlight">{{question.question}}</h2>
+                            </div>
+                            <div class="question__spacer last-column"></div>
+                        </header>
+                        <div class="question__content flex flex--row">
+                            <div class="question__status flex flex--column">
+                                <div class="flex-fill"></div>
+                                <span class="activity-title">Asked</span>
+                                <div class="dot dot--inactive"></div>
+                            </div>
+                            <div class="question__activity flex flex--row">
+                                <activity-card v-if="cards.length > maxCards" :card="summary"></activity-card>
+                                <div class="activity activity--summary">
+                                    <p class="summary__count">
+                                        3
+                                    </p>
+                                    <span class="activity-title">More activities</span>
+                                    <div class="dot dot--inactive"></div>
+                                </div>
+                                <div class="activity activity--single">
+                                    <div class="avatar-box">
+                                        <img src="https://source.unsplash.com/random/100x100?face&sig=1" />
+                                    </div>
+                                    <span class="activity-title">Commented</span>
+                                    <div class="dot dot--inactive"></div>
+                                </div>
+                                <div class="activity activity--single">
+                                    <div class="avatar-box">
+                                        <img src="https://source.unsplash.com/random/100x100?face&sig=1" />
+                                    </div>
+                                    <span class="activity-title">Commented</span>
+                                    <div class="dot dot--inactive"></div>
+                                </div>
+                                <div class="activity activity--single">
+                                    <div class="avatar-box">
+                                        <img src="https://source.unsplash.com/random/100x100?face&sig=1" />
+                                    </div>
+                                    <span class="activity-title">Commented</span>
+                                    <div class="dot dot--inactive"></div>
+                                </div>
+                                <div class="activity activity--single">
+                                    <div class="avatar-box">
+                                        <img src="https://source.unsplash.com/random/100x100?face&sig=1" />
+                                    </div>
+                                    <span class="activity-title">Commented</span>
+                                    <div class="dot dot--inactive"></div>
+                                </div>
+
+                            </div>
+                            <div class="question__stats fancy flex flex--column last-column">
+                                <span class="question__stats-item"><span class="number">1</span>related discussion</span>
+                                <span class="question__stats-item"><span class="number">6</span>peers involved</span>
+                                <span class="question__stats-item"><span class="number">3</span>conversations</span>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="card main-column">
+                        <a class="more-questions">load more questions</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/bundle.js"></script>
+    <!--<script src="https://use.fontawesome.com/30a7073d1a.js"></script>-->
+</body>
+
+</html>

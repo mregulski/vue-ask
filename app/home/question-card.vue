@@ -2,42 +2,43 @@
     A single question component for the front page
 -->
 <template>
-    <section class="card question">
-        <header class="question__header flex flex--row">
-            <figure class="question__avatar">
+    <section class="card story">
+        <header class="story__row-1">
+            <figure class="story__avatar story__col-1">
                 <div class="avatar-box">
                     <img :src="question.author.avatar" alt="$user's profile picture" />
                 </div>
             </figure>
-            <div class="question__title flex flex--column flex-fill">
-                <p class="question__intro">
-                    <span class="user__name highlight">{{question.author.name}}</span>
-                    <span class="text--action"> is asking:</span>
-                </p>
-                <h2 class="header fancy highlight">{{question.question}}</h2>
+
+                <div class="story__header story__col-2" href="#">
+                    <p class="story__intro">
+                        <span class="username">{{question.author.name}}</span>
+                        <span class="small caps"> is asking:</span>
+                    </p>
+                    <h2 class="story__title">{{question.question}}</h2>
+                </div>
+
+            <div class="story__col-3">
+                <!--filler-->
             </div>
-            <div class="question__spacer"></div>
         </header>
-        <div class="question__content flex flex--row">
-            <div class="question__status flex flex--column">
+        <div class="story__row-2">
+            <div class="story__status story__col-1">
                 <div class="flex-fill"></div>
                 <span class="activity-title">Asked</span>
                 <div class="dot dot--inactive"></div>
             </div>
-            <div class="question__activity flex flex--row">
+            <div class="story__activity story__col-2">
                 <activity-card v-if="cards.length > maxCards" :card="summary"></activity-card>
-                <activity-card v-for="card in cardsToShow" :card="card">
-
-                </activity-card>
-                <!--<activity-card></activity-card>
-                <activity-card></activity-card>
-                <activity-card></activity-card>
-                <activity-card></activity-card>-->
+                <activity-card v-for="card in cardsToShow" :card="card"></activity-card>
             </div>
-            <div class="question__stats fancy flex flex--column">
-                <span class="question__stats-item"><span class="number">1</span>related discussion</span>
-                <span class="question__stats-item"><span class="number">6</span>peers involved</span>
-                <span class="question__stats-item"><span class="number">3</span>conversations</span>
+            <div class="story__stats story__col-3">
+                <span class="question__stats-item">
+                    <span class="number">1</span>related discussion</span>
+                <span class="question__stats-item">
+                    <span class="number">6</span>peers involved</span>
+                <span class="question__stats-item">
+                    <span class="number">3</span>conversations</span>
             </div>
         </div>
     </section>
@@ -45,140 +46,160 @@
 
 <script>
 import ActivityCard from './activity-card.vue'
+import './question-card.scss'
 export default {
     props: ['question'],
     data: function () {
         return {
+            maxCards: 0,
             cards: [
-                { type: "summary", count: 2 },
-                { type: "single", user: {name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=1" }, action: "commented"},
+                { type: "single", user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=1" }, action: "commented" },
+                { type: "single", user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=2" }, action: "commented" },
+                { type: "single", user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=3" }, action: "commented" },
+                { type: "single", user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=4" }, action: "commented" },
+                { type: "single", user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=5" }, action: "commented" },
+                { type: "single", user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=1" }, action: "commented" },
+                { type: "single", user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=2" }, action: "commented" },
+                { type: "single", user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=3" }, action: "commented" },
+                { type: "single", user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=4" }, action: "commented" },
+                { type: "single", user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=5" }, action: "commented" }
             ]
         }
     },
     computed: {
-        cardsToShow: function () {
-            return this.cards
+        summary() {
+            return {
+                type: "summary",
+                count: this.cards.length - this.maxCards + 1
+            }
+        },
+        cardsToShow() {
+            let cs = this.cards.slice(0, this.maxCards - 1)
+            console.log("cards to show:", cs)
+            return cs
         }
     },
-    components: {ActivityCard}
+    methods: {
+        handleResize(event) {
+            this.calcMaxCards()
+        },
+        calcMaxCards() {
+            let row = this.$el.querySelector(".story__row-2")
+            let lastcol = this.$el.querySelector(".story__stats")
+            let spaceForActivities = (row.clientWidth - 100 - lastcol.clientWidth)
+            console.log("lastcol width:", lastcol.clientWidth)
+            console.log("place for activities: ", spaceForActivities,  "px")
+            this.maxCards = Math.floor(spaceForActivities / 100)
+        }
+    },
+    components: { ActivityCard },
+    mounted() {
+        window.addEventListener('resize', this.handleResize)
+        this.calcMaxCards()
+    },
+    beforeDestroy: function () {
+        window.removeEventListener('resize', this.handleResize)
+    }
+
 }
 </script>
 
 <style lang="scss">
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
-    position: absolute;
-    bottom: -5px;
-    left: calc(50% - 5px);
+// global
+$color-story-bg: #DFF3FD;
+$color-highlight: #0266B3;
+
+//question:
+@import "../imports.scss";
+
+@mixin coloredBg() {
+    background-color: $color-story-bg;
 }
 
-.dot--inactive {
-    background: #D4D5D6;
+
+
+/* layout */
+.story__col-1 {
+    @include coloredBg();
+    width: $activity-width;
+    min-width: $activity-width;
 }
 
-.question {
+.story__col-2 {
+    padding-left: 10px;
+    flex: 1;
+}
+.story__col-3 {
+    display: none;
+}
+
+
+
+.story__row-1 {
+    @include flex(row);
+    // height: $activity-width;
+}
+
+.story__row-2 {
+    @include flex(row);
+    padding-bottom: 40px;
+}
+
+/* specific */
+
+.story__avatar {
+    width: $activity-width;
+    height: $activity-width;
     display: flex;
-    flex-direction: column;
-    width: 100%;
 }
-    .question__header {
-        width: 100%;
-        height: 100px;
 
-    }
-        .question__avatar {
-            width: 100px;
-            height: 100px;
-            display: flex;
-            background: #DFF3FD;
-
-        }
-        .question__title {
-            background: #DFF3FD;
-        }
-        .question__intro {
-            margin-top:1em;
-            margin-bottom: .5em;
-        }
-        .user__name {
-            font-weight: bold;
-        }
-
-        .question__spacer {
-            background: white;
-            width: 150px;
-            margin-left: 45px;
-        }
-
-    .question__content {
-        height: 100%;
-        margin-bottom: 40px;
+.story__header {
+    @include flex(column);
+    background-color: $color-story-bg;
+}
+    .story__intro {
+        margin-top: 1em;
+        margin-bottom: .3em;
     }
 
-        .question__status {
-            width: 100px;
-            min-width: 100px;
-            min-height: 100%;
-            position: relative;
-            background: #DFF3FD;
-        }
+    .story__title {
+        @include fancy(1rem);
+        color: $color-highlight;
+    }
 
-        .question__activity {
-            background: white;
-            width: 100%;
-            padding-top: 40px;
-            justify-content: flex-start
-        }
 
-        .question__stats {
-            background: white;
-            padding-top: 40px;
-            width: 150px;
-            min-width: 150px;
-            margin-left: 45px;
-            margin-right: 1em;
-        }
 
-            .question__stats > :nth-child(2) {
-                margin-top:30%;
-                margin-bottom: 30%;
-            }
-
-            .question__stats-item {
-                font-size: .83rem;
-            }
-            .question__stats-item > .number {
-                font-weight: bold;
-                margin-right: 1em;
-                font-size: .9rem;
-            }
-
-.activity-title {
-    display: block;
-    width: 80%;
-    font-size: .8em;
-    border-top: 1px solid #7D8B93;
-    padding-top: .5em;
-    text-align: center;
-    margin: 0 auto;
-    margin-bottom: 10px;
-    color: #7D8B93;
-    text-transform: uppercase;
+.story__status {
+    @include flex(column);
+    position: relative;
 
 }
-.avatar-box {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin: auto;
+.story__activity {
+    @include flex(row);
+    padding-top: $activity-top-gutter;
+}
+@media screen and (min-width: 1280px) {
+    .story__col-3 {
+        display: block;
+        width: 202px;
+        min-width: 202px;
+        padding-right: 1em;
+        padding-left: 2em;
+    }
+    .story__col-3.story__stats {
+        @include flex(column);
+        @include fancy(.8rem);
+        justify-content: space-between;
+        // squash the text a bit down to look more in line with activity tops
+        padding-top: $activity-top-gutter + 2px;
+        padding-bottom: 2px;
+    }
+    .story__stats .number {
+        margin-right: 1em;
+    }
 }
 
-.avatar-box > img { /* prevent squashing the aspect ratio*/
-    height: 60px;
-    min-width: 60px;
-}
+
+
 </style>
 

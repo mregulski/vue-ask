@@ -9,6 +9,7 @@
 
 <script>
 import QuestionCard from './question-card.vue'
+
 export default {
     data: function () {
         return {

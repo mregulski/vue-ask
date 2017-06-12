@@ -26,10 +26,6 @@
                 <activity-card v-for="card in cardsToShow" :card="card">
 
                 </activity-card>
-                <!--<activity-card></activity-card>
-                    <activity-card></activity-card>
-                    <activity-card></activity-card>
-                    <activity-card></activity-card>-->
             </div>
             <div class="question__stats fancy flex flex--column">
                 <span class="question__stats-item">

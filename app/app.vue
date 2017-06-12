@@ -31,7 +31,7 @@
                     <home-page></home-page>
                 </div>
                 <div v-else-if="page==='single'">
-                    <question-page></question-page>
+                    <question-page ></question-page>
                 </div>
             </div>
         </div>
@@ -48,19 +48,19 @@ export default {
             page: "home"
         }
     },
-    created: function () {
-    }, components: {
+    components: {
         HomePage,
         QuestionPage
 
+    },
+    methods: {
     }
 }
 </script>
 
 
 <style lang="scss">
-$color-blue-light: #DFF3FD;
-$color-highlight: #0266B3;
+@import "./colors.scss";
 
 // todo: header sizes
 .fancy {
