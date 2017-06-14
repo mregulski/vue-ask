@@ -36,15 +36,28 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "../css/imports.scss";
 .activity {
-    width: 90px;
+    width: 80px;
     height: 155px;
     display: flex;
     flex-direction: column;
-    margin-right: $activity-gutter;
+    margin-right: $activity-gutter-small;
     position: relative;
+    background: #EEEEEE;
+}
+@media ($br-small) {
+    .activity {
+        width: 90px;
+        margin-right: $activity-gutter;
+    }
+    .activity--summary {
+        background: white;
+    }
+    .activity:first-child {
+        margin-left: 10px;
+    }
 }
 
 .activity > :first-child {
@@ -54,15 +67,6 @@ export default {
 .activity:last-child {
     margin-right: 0px;
 }
-
-.activity:first-child {
-    margin-left: 10px;
-}
-
-.activity--single {
-    background: #EEEEEE;
-}
-
 .activity--summary {
     font-family: "Libre Baskerville", serif;
 }
@@ -78,7 +82,4 @@ export default {
     font-family: "Libre Baskerville", serif;
     text-transform: lowercase;
 }
-/*.activity:first-child {
-    margin-left: 20px;
-}*/
 </style>

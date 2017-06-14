@@ -1,7 +1,16 @@
-$activity-gutter: 9.5px;
+@import './colors.scss';
+@import './text.scss';
+
+$br-small: 'min-width: 376px';
+$br-medium: 'min-width: 670px';
+$br-large: 'min-width: 1024px';
+
 $activity-width: 90px;
 $activity-top-gutter: 32px;
 $avatar-size: 50px;
+$activity-gutter-small: 1px;
+$activity-gutter: 9.5px;
+
 
 @mixin fancy($size: 1em) {
     font-family: "Libre Baskerville", serif;

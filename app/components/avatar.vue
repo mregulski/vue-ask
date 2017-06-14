@@ -1,7 +1,7 @@
 <template>
-    <div class="avatar-box">
+    <figure class="avatar-box">
         <img :src="src" />
-    </div>
+    </figure>
 </template>
 
 <script>

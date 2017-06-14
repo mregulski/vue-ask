@@ -1,7 +1,13 @@
-.caps {
+@mixin text-caps {
     text-transform: uppercase;
 }
 
-.username {
+@mixin text-username {
     color: $color-highlight;
+    font-weight: bold;
+}
+
+@mixin text-fancy {
+    font-family: "Libre Baskerville", serif;
+    font-style: italic;
 }

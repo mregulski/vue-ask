@@ -5,7 +5,7 @@
                 <span class="icon ion-ios-arrow-back"></span>
             </a>
             <div class="main-column">
-                <div class="site-header__first flex flex-row">
+                <div class="site-header__first">
                     <h1 class="site-title">Questions</h1>
                     <a class="button button--plus">
                         <span class="icon ion-plus-circled"></span>
@@ -19,28 +19,31 @@
                             <span>Sort by: <a>recent</a> or <a>hot</a></span>
                     </div>
                 </div>
-                <div class="search flex flex-row">
+                <div class="site-header__search flex flex-row">
                     <input class="search__input flex-fill"></input>
                     <a class="button button--search">Search</a>
                 </div>
             </div>
         </header>
         <div id="backplane">
-            <div id="content" class="main-column">
+            <main id="content" class="main-column">
                 <div v-if="page==='home'">
                     <home-page></home-page>
                 </div>
                 <div v-else-if="page==='question'">
-                    <question-page :question="selectedQuestion" :isSummary="true"></question-page>
+                    <story-page :story="selectedQuestion" :isSummary="true"></story-page>
                 </div>
-            </div>
+            </main>
         </div>
     </div>
 </template>
 
 <script>
 import HomePage from './home-page.vue'
-import QuestionPage from './question/question-page.vue'
+import StoryPage from './story/story-page.vue'
+
+
+
 export default {
 
     data: function () {
@@ -54,13 +57,14 @@ export default {
                         avatar: "https://source.unsplash.com/random/100x100?face&sig=1"
                     },
                     question: "Will insulin make my patient gain weight?",
+                    content: "Ad ea pariatur dolor anim duis fugiat aute excepteur occaecat ea sint deserunt. Dolor qui deserunt eiusmod exercitation do tempor irure qui ipsum ipsum. Qui do et laboris laboris et voluptate ullamco eiusmod. Dolor culpa qui Lorem id ullamco ex elit aute ut cillum aliqua. Aliquip adipisicing ullamco in ex non sint est ad.",
                     status: "asked"
                 }
         }
     },
     components: {
         HomePage,
-        QuestionPage
+        StoryPage
     },
     methods: {
     }
@@ -69,45 +73,23 @@ export default {
 
 
 <style lang="scss">
-@import "./css/colors.scss";
-
-// todo: header sizes
-.fancy {
-    font-family: "Libre Baskerville", serif;
-    font-style: italic;
-}
+@import "./css/imports.scss";
 
 #app {
-    height: 100%;
+    // height: 100%;
+    width: 100%;
+    min-width: 320px;
     overflow: auto;
-}
-.card {
-    background: white;
-    position: relative;
-    box-shadow: 1px 1px 4px rgba(0,0,0,0.5);
-}
-
-.flex {
-    display: flex;
-}
-
-.flex--row {
-    flex-direction: row;
-}
-
-.flex--column {
-    flex-direction: column;
-}
-
-.flex-fill {
-    flex:1;
 }
 
 #backplane {
-    // margin: 0px 40px 40px 40px;
-    // padding: 0 2px;
+    min-width: 320px;
+    // height: calc(100% - 2em - 40px);
+    // height: 100%;
     background: #FBFBFB;
+    // margin-bottom: 2em;
 }
+
 .site-header {
     background: white;
     padding: 2rem 40px 1.5rem 80px;
@@ -118,15 +100,21 @@ export default {
 
 .main-column {
     max-width: 1200px;
+    min-width: 320px;
     margin: 0 auto;
 }
 
 
-.highlight {
-    color: $color-highlight;
-}
 
-.site-header__mode-switch {}
+.site-header__first {
+    @include flex(row);
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.site-header__mode-switch {
+
+}
 
 .site-header__sorting {
     width: 150px;
@@ -134,11 +122,12 @@ export default {
     text-align: right;
 }
 
-.site-header__first {
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
+
+
+.site-header__search {
+    @include flex(row);
 }
+
 .site-title {
     margin-right: 1rem;
     text-transform: uppercase;
@@ -148,11 +137,7 @@ export default {
     letter-spacing: 1px;
 }
 
-.button {
-    display: block;
-    border: 1px solid #B4B5B8;
-    color: #B4B5B8;
-}
+
 
 
 
@@ -199,10 +184,10 @@ export default {
     left: 10px;
     top: 0;
 }
-@media screen and (min-width: 1280px) {
+@media (min-width: 1200px) {
     #backplane {
         margin: 0px 40px 40px 40px;
-        padding: 0 200px;
+        padding: 0 200px 2em 200px;
     }
     .site-header {
          padding: 2rem 240px 1.5rem 240px;
