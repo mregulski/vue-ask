@@ -4,8 +4,8 @@ A card representing an activity in a question e.g. users answering on commenting
 
 <template>
     <div v-if="card.type === 'single'" class="activity activity--single">
-        <avatar :src="card.user.avatar">
-                </avatar>
+        <avatar :src="avatarUrl">
+        </avatar>
         <span class="activity-title">Commented</span>
         <div class="dot dot--inactive"></div>
     </div>
@@ -22,16 +22,21 @@ A card representing an activity in a question e.g. users answering on commenting
 import Avatar from '../components/avatar.vue'
 export default {
     props: ['card'],
-    data: function() {
+    data: function () {
         return {
         }
     },
     computed: {
-        avatarUrl: function() {
-            return this.card.user.avatar
+        avatarUrl: function () {
+            if (this.card.type === "summary") {
+                return "";
+            }
+            if (this.card.user) { //todo: nullcehcking and shit
+                return this.card.user.avatar
+            }
         }
     },
-    components: {Avatar}
+    components: { Avatar }
 
 }
 </script>
@@ -39,7 +44,7 @@ export default {
 <style lang="scss" scoped>
 @import "../css/imports.scss";
 .activity {
-    width: 80px;
+    width: $activity-width-small;
     height: 155px;
     display: flex;
     flex-direction: column;
@@ -47,6 +52,7 @@ export default {
     position: relative;
     background: #EEEEEE;
 }
+
 @media ($br-small) {
     .activity {
         width: 90px;
@@ -60,23 +66,25 @@ export default {
     }
 }
 
-.activity > :first-child {
+.activity> :first-child {
     margin-top: 20%;
 }
 
 .activity:last-child {
     margin-right: 0px;
 }
+
 .activity--summary {
     font-family: "Libre Baskerville", serif;
 }
-.activity--summary > p {
+
+.activity--summary>p {
     margin: auto;
     text-align: center;
     line-height: 60px;
 }
 
-.activity--summary > .activity-title {
+.activity--summary>.activity-title {
     color: black;
     border-top: none;
     font-family: "Libre Baskerville", serif;

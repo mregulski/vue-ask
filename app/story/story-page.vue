@@ -1,7 +1,7 @@
 <template>
     <div>
-        <story-card :story="story">
-        </story-card>
+        <story-details :story="story">
+        </story-details>
 
         <aside class="comments">
             <p class="comments__summary">
@@ -13,8 +13,9 @@
 </template>
 
 <script>
-import {StoryCard, CommentCard} from './'
+import {StoryDetails, CommentCard} from './'
 import Api from '../mockapi.js'
+
 
 export default {
     props: ['story'],
@@ -23,7 +24,9 @@ export default {
             comments: []
         }
     },
-    components: { StoryCard, CommentCard },
+    methods: {
+    },
+    components: { StoryDetails, CommentCard },
     created() {
         Api.getComments(this.story.id).then(result => {this.comments =result})
     }
@@ -41,7 +44,8 @@ export default {
     margin: 0 auto 1em auto;
 }
 
-.comments__summary.number {
+.comments__summary .number {
     font-weight: 600;
 }
+
 </style>

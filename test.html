@@ -1,0 +1,74 @@
+<style>
+    div {
+        box-sizing: border-box;
+    }
+
+    .wrapper {
+        width: 302px;
+        border: 1px solid black;
+    }
+
+    .top {
+        display: flex;
+    }
+
+    .other {
+        height: 150px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row
+    }
+    .pic {
+        width: 100px;
+    }
+img {
+    border-radius: 50%;
+    margin: 20px 10px auto 20px;
+    width: 60px;
+    height: 60px;
+}
+    .a {
+        background: #f42222;
+        width: 200px;
+        height: 100px;
+    }
+
+    .b {
+        background: #22d422;
+        width:calc(100% + 100px);
+        height: 50px;
+        margin-left: -100px;
+    }
+    @media (min-width: 1000px) {
+        .other {
+            height:100px;
+            flex-direction: column
+        }
+        .a, .b {
+            height: 50px;
+        }
+        .b {
+            margin-left: 0;
+            width: 200px;
+            order:1;
+        }
+        .a {
+            order: 2;
+        }
+    }
+</style>
+
+<div class="wrapper">
+    <div class="top">
+        <div class="pic">
+            <img src="https://source.unsplash.com/random/100x100?face" />
+        </div>
+        <div class="other">
+            <div class="a">
+                asdf
+            </div>
+            <div class="b">
+                jajdas
+            </div>
+        </div>
+    </div>

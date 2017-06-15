@@ -1,13 +1,28 @@
-@mixin text-caps {
-    text-transform: uppercase;
+@import './imports.scss';
+body {
+    font-size: 12px;
+}
+h1 {
+    font-size: 2em;
 }
 
-@mixin text-username {
-    color: $color-highlight;
-    font-weight: bold;
+h2 {
+    font-size:1em;
 }
 
-@mixin text-fancy {
-    font-family: "Libre Baskerville", serif;
-    font-style: italic;
+.username {
+    @include text-username;
 }
+
+@media ($br-small) {
+    body {
+        font-size: 14px;
+    }
+    h2 {
+        font-size: 1.067em;
+    }
+}
+
+@media ($br-medium) {}
+
+@media ($br-large) {}

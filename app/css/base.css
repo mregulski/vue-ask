@@ -1,9 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Cuprum|Libre+Baskerville');
-html,body {
-    height: 100%;
-    background: #FFE1AD;
-	font-family: Cuprum, sans-serif;
-}
+@import url('https://fonts.googleapis.com/css?family=Cuprum|Libre+Baskerville|Roboto:400,500');
 
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126

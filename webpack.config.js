@@ -37,6 +37,6 @@ module.exports = {
     devtool: "cheap-eval-source-map",
     devServer: { inline: true },
     watchOptions : {
-        poll: 1000
+        poll: 2000
     }
 };

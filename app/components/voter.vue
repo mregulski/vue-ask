@@ -19,15 +19,16 @@ export default {
         }
     },
     computed: {
-        voteType: function() {
-            let text = this.score >= 0 ? "upvote" : 'downvote';
+        voteType: function () {
+            let score = this.score || 0
+            let text = score < 0 ? "downvote" : 'upvote';
             if (this.voteCount != 1) {
                 text += 's' // super basic pluralization
             }
             return text;
         },
-        voteCount: function() {
-            return Math.abs(this.score)
+        voteCount: function () {
+            return Math.abs(this.score) || 0
         }
     },
     methods: {
@@ -43,20 +44,31 @@ export default {
 </script>
 
 <style scoped lang="scss" scoped>
-    @import '../css/imports.scss';
-    .voter {
-        @include flex(row);
-        height: 2em;
-        justify-content: flex-end;
-        align-items: center;
+@import '../css/imports.scss';
+.voter {
+    @include flex(row);
+    height: 3em;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.voter__counter {
+    margin-right: .8em;
+}
+
+.voter__buttons {
+    @include flex(column); // margin-left: 2em;
+    color: $color-highlight;
+    font-size: 1.5em;
+}
+
+.voter__buttons a {
+    cursor: pointer;
+}
+
+@media($br-medium) {
+    .voter__counter {
+        margin-right: 2em;
     }
-    .voter__buttons {
-        @include flex(column);
-        margin-left: 2em;
-        color: $color-highlight;
-        font-size: 1.5em;
-    }
-    .voter__buttons a {
-        cursor: pointer;
-    }
+}
 </style>

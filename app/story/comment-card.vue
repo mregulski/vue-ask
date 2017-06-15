@@ -2,13 +2,13 @@
     <div>
         <article class="comment card" :class="depthClass">
             <div class="comment__avatar">
-                <avatar :src="comment.user.avatar"></avatar>
+                <avatar :src="comment.author.avatar"></avatar>
             </div>
             <div class="comment__body">
                 <div class="comment__meta">
-                    <span class="comment__author"> {{ comment.user.name }} </span>
-                    <span class="comment__action">commented</span>
-                    <span class="comment__date">yesterday</span>
+                    <span class="comment__author"> {{ comment.author.name }} </span>
+                    <span class="comment__action">commented it</span>
+                    <span class="comment__date">{{ comment.time }}</span>
                 </div>
                 <div class="comment__content">
                     {{ comment.content }}
@@ -17,7 +17,9 @@
             <!--<div class="flex-fill"></div>-->
             <voter class="comment__votes" :score="comment.score" @upvote="vote(1)" @downvote="vote(-1)"></voter>
         </article>
-        <comment-card v-for="child in childComments" :depth="nextDepth" :comment="child" :key="child.id"></comment-card>
+        <div class="comment__responses">
+            <comment-card v-for="child in childComments" :depth="nextDepth" :comment="child" :key="child.id"></comment-card>
+        </div>
         <a v-if="depth === 0" class="button button--discussion">{{ buttonText }}</a>
     </div>
 </template>
@@ -35,13 +37,13 @@ export default {
     },
     computed: {
         depthClass() {
-            return 'comment--depth-' + this.depth
+            return this.depth > 0 ? 'depth-' + this.depth : ""
         },
         childComments() {
             return this.comment.responses || []
         },
         nextDepth() {
-            return Math.min(this.depth+1, 3)
+            return Math.min(this.depth + 1, 3)
         },
         buttonText() {
             if (this.childComments.length > 0) {
@@ -61,43 +63,121 @@ export default {
 
 <style lang="scss" scoped>
 @import '../css/imports.scss';
+$comment-indent: 90px;
+$comment-indent-small: 5px;
 .comment {
     @include flex(row);
+    flex-wrap: wrap;
     min-height: 100px;
 }
+
+.comment[class*="depth-"] {
+    // only single level of indentation
+    margin-left: $comment-indent-small;
+}
+
+.comment__responses {
+    background: $color-grey-lighter;
+}
+
 .comment__avatar {
-    padding: 1em;
-    width: 90px;
-    border-right: 1px solid $color-grey-lighter;
+    padding: 1em 1em 0 1em;
+    width: $avatar-width-small;
+    height: 60px;
+    border-bottom: 1px solid $color-grey-lighter;
+}
+
+.comment__meta {
+    padding-top: 10px;
+    padding-bottom: 21px;
+    border-bottom: 1px solid $color-grey-lighter;
 }
 
 .comment__author {
     @include text-username();
+    margin-right: .5em;
+}
+
+.comment__action {
+    @include text-action(.8em);
+    margin-right: .5em;
+}
+
+.comment__action::after {
+    font-family: sans-serif;
+    content: "\2022";
+    padding-left: .5em;
+    font-size: 16px;
+    color: $color-grey-light;
+}
+
+.comment__date {
+    @include text-fancy(.9em);
 }
 
 .comment__body {
     flex: 1;
     padding-top: 1em;
-    padding-left: 1em;
+    padding-bottom: 2em;
+    // padding-left: 1em;
+}
+
+.comment__content {
+    margin-left: -$avatar-width-small;
+    padding-top: $avatar-width-small / 2.5;
+    padding-left: 1rem;
 }
 
 .comment__votes {
-    flex: 0 0 202px; // width: 200px;
-    margin-top: 2em;
-    margin-left: 1em;
+    width: auto;
+    margin-top: 4em;
+    margin-left: 2em;
     margin-right: 3em;
 }
 
 .button.button--discussion {
     bottom: 15px;
     left: calc(50% - 75px);
-
 }
 
 @media ($br-small) {
-    .comment--depth-1 {
-        margin-left: 90px;
+    .comment__avatar {
+        width: $avatar-width;
+        height: auto;
+        border-right: 1px solid $color-grey-lighter;
     }
+
+    .comment__meta {
+        margin-bottom: 1em;
+    }
+
+    .comment__content {
+        margin: 0;
+    }
+
+    .comment[class*='depth-'] {
+        // only single level of indentation
+        margin-left: $comment-indent;
+    }
+
+    .comment__responses {
+        background: transparent;
+    }
+
+    .comment__votes {
+    width: auto;
+    margin-top: 2em;
+    margin-left: 2em;
+    margin-right: 3em;
+}
 }
 
+@media ($br-medium) {
+
+    .comment__votes {
+        width: 202px
+    }
+
+
+}
 </style>

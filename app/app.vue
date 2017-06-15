@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <header class="site-header">
-            <a class="button button--back--circle">
+            <a @click="changeSelection({})" class="button button--back--circle">
                 <span class="icon ion-ios-arrow-back"></span>
             </a>
             <div class="main-column">
@@ -16,7 +16,10 @@
                         <input type="radio">All questions</input>
                     </div>
                     <div class="site-header__sorting">
-                            <span>Sort by: <a>recent</a> or <a>hot</a></span>
+                        <span>Sort by:
+                            <a>recent</a> or
+                            <a>hot</a>
+                        </span>
                     </div>
                 </div>
                 <div class="site-header__search flex flex-row">
@@ -27,12 +30,11 @@
         </header>
         <div id="backplane">
             <main id="content" class="main-column">
-                <div v-if="page==='home'">
-                    <home-page></home-page>
+                <div class="modal">
+                    <user-modal class="modal-user" :user="user"></user-modal>
                 </div>
-                <div v-else-if="page==='question'">
-                    <story-page :story="selectedQuestion" :isSummary="true"></story-page>
-                </div>
+                <home-page v-if="!isStorySelected"></home-page>
+                <story-page v-else :story="selectedStory" :isSummary="true"></story-page>
             </main>
         </div>
     </div>
@@ -40,33 +42,43 @@
 
 <script>
 import HomePage from './home-page.vue'
-import StoryPage from './story/story-page.vue'
-
-
+import { StoryPage } from './story/'
+import { UserModal } from './user/'
+import Bus from './event-bus.js'
+import Api from './mockapi.js'
 
 export default {
-
     data: function () {
         return {
             appname: "vue-ask",
-            page: "question",
-            // page: "home",
-            selectedQuestion: {
-                    author: {
-                        name: "Eva",
-                        avatar: "https://source.unsplash.com/random/100x100?face&sig=1"
-                    },
-                    question: "Will insulin make my patient gain weight?",
-                    content: "Ad ea pariatur dolor anim duis fugiat aute excepteur occaecat ea sint deserunt. Dolor qui deserunt eiusmod exercitation do tempor irure qui ipsum ipsum. Qui do et laboris laboris et voluptate ullamco eiusmod. Dolor culpa qui Lorem id ullamco ex elit aute ut cillum aliqua. Aliquip adipisicing ullamco in ex non sint est ad.",
-                    status: "asked"
-                }
+            // page: "question",
+            page: "home",
+            user: {},
+            selectedStory: {}
+        }
+    },
+    computed: {
+        isStorySelected() {
+            return Object.keys(this.selectedStory).length != 0
+        }
+    },
+    methods: {
+        changeSelection(story) {
+            console.log("select: ", story)
+            this.selectedStory = story
         }
     },
     components: {
         HomePage,
-        StoryPage
+        StoryPage,
+        UserModal
     },
-    methods: {
+    created() {
+        Bus.$on('story-select', story => this.changeSelection(story))
+        Api.getUser(3).then(user => {
+            console.log('user:', user)
+            this.user = user
+        })
     }
 }
 </script>
@@ -83,11 +95,23 @@ export default {
 }
 
 #backplane {
-    min-width: 320px;
-    // height: calc(100% - 2em - 40px);
+    min-width: 320px; // height: calc(100% - 2em - 40px);
     // height: 100%;
-    background: #FBFBFB;
-    // margin-bottom: 2em;
+    background: #FBFBFB; // margin-bottom: 2em;
+}
+
+.modal {
+    width: 100%;
+    min-height: 100%;
+    background: rgba(0, 0, 0, .5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+.modal-user {
+    background: white;
 }
 
 .site-header {
@@ -112,9 +136,8 @@ export default {
     align-items: center;
     margin-bottom: 1rem;
 }
-.site-header__mode-switch {
 
-}
+.site-header__mode-switch {}
 
 .site-header__sorting {
     width: 150px;
@@ -171,6 +194,7 @@ export default {
     border-radius: 50%;
     text-align: center;
 }
+
 [class*="--back"].button {
     width: 1em;
     height: 1em;
@@ -184,21 +208,25 @@ export default {
     left: 10px;
     top: 0;
 }
-@media (min-width: 1200px) {
+
+@media ($br-large) {
     #backplane {
         margin: 0px 40px 40px 40px;
         padding: 0 200px 2em 200px;
     }
     .site-header {
-         padding: 2rem 240px 1.5rem 240px;
+        padding: 2rem 240px 1.5rem 240px;
     }
 
     [class*="--back"].button {
         left: 60px;
     }
+
+
+    .modal-user {
+        background: white;
+        width: 850px;
+        margin: 1em auto;
+    }
 }
-
-
-
-
 </style>

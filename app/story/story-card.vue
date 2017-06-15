@@ -2,7 +2,7 @@
     A single question component for the front page
 -->
 <template>
-    <article class="card story" :class="{'story--summary': isSummary, 'story--single': !isSummary}">
+    <article class="card story-summary">
         <header class="story__row-1">
             <div class="story__avatar story__col-1">
                 <avatar :src="story.author.avatar">
@@ -13,18 +13,14 @@
                     <span class="username">{{story.author.name}}</span>
                     <span class="small caps"> is asking:</span>
                 </p>
-                <h2 class="story__title">{{story.question}}</h2>
+                <h2 class="story__title" @click="select(story)">{{story.question}}</h2>
             </div>
 
-            <div v-if="isSummary" class="story__col-3 story__cutoff">
+            <div class="story__col-3 story__cutoff">
                 <!--filler-->
             </div>
-            <div v-else class="story__col-3 story__unfollow">
-                <a v-if="story.followed" @click="unfollow">unfollow</a>
-                <a v-else @click="follow">follow</a>
-            </div>
         </header>
-        <div v-if="isSummary" class="story__row-2">
+        <div class="story__row-2">
             <div class="story__status story__col-1">
                 <div class="flex-fill"></div>
                 <span class="activity-title">Asked</span>
@@ -43,98 +39,78 @@
             </div>
 
         </div>
-        <div v-else class="story__row-2">
-            <div class="story__status story__col-1">
-            </div>
-            <div class="story__content story__col-2">
-                <p>{{ story.content }}</p>
-            </div>
-            <voter class="story__votes story__col-3" :score="0"></voter>
-        </div>
-        <a v-if="!isSummary" class="button button--discussion">GIVE new answer</a>
+
     </article>
 </template>
 
 <script>
 import ActivityCard from './activity-card.vue'
 import { Avatar, Voter } from '../components/'
+import Bus from '../event-bus.js'
+
 export default {
-    props: {
-        story: {},
-        isSummary: {
-            type: Boolean,
-            default: false,
-        },
-    },
+    props: ['story'],
     data: function () {
         return {
             maxCards: 0,
-            activities: [
-                { type: "single", id: 0, user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=1" }, action: "commented" },
-                { type: "single", id: 1, user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=2" }, action: "commented" },
-                { type: "single", id: 2, user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=3" }, action: "commented" },
-                { type: "single", id: 3, user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=4" }, action: "commented" },
-                { type: "single", id: 4, user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=5" }, action: "commented" },
-                { type: "single", id: 5, user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=1" }, action: "commented" },
-                { type: "single", id: 6, user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=2" }, action: "commented" },
-                { type: "single", id: 7, user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=3" }, action: "commented" },
-                { type: "single", id: 8, user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=4" }, action: "commented" },
-                { type: "single", id: 9, user: { name: "Bob", avatar: "https://source.unsplash.com/random/100x100?face&sig=5" }, action: "commented" }
-            ]
         }
     },
     computed: {
         summary() {
-            return this.isSummary ? {
+            return {
                 type: "summary",
-                count: this.activities.length - this.maxCards + 1
-            } : {}
+                count: this.story.activity.length - this.maxCards + 1
+            }
         },
         cardsToShow() {
-            if (!this.isSummary) { return }
-            if (this.activities.length > this.maxCards) {
-                let visible = this.activities.slice(0, Math.max(this.maxCards - 1, 0))
-                return [this.summary, ...visible]
+            let activitiesToShow = this.story.activity.length > this.maxCards
+                ? this.maxCards - 1
+                : this.maxCards
+            let visibleActivities = this.story.activity
+                .slice(0, activitiesToShow)
+                .map(x => {
+                    x.type = "single"
+                    return x
+                })
+            if (this.story.activity.length > this.maxCards) {
+                return [this.summary, ...visibleActivities]
 
             }
-            return this.activities
+            return visibleActivities
         }
     },
     methods: {
-        follow() {
-
+        select(story) {
+            Bus.$emit('story-select', story)
         },
         handleResize(event) {
             this.calcMaxCards()
         },
         calcMaxCards() { // including the summary card
-            if (!this.isSummary) {
-                return
-            }
             let row = this.$el.querySelector(".story__row-2")
             let status = this.$el.querySelector(".story__status")
             let stats = this.$el.querySelector(".story__stats")
-            if (row.clientWidth > 376) { //sass: $br-small
+            if (row.clientWidth > 420) { //sass: $br-small
                 let cardSpace = 99.5
                 let spaceForActivities = (row.clientWidth - status.clientWidth - stats.clientWidth - 10)
                 if (stats.clientWidth === 0) {
                     spaceForActivities -= 5 // "padding"
                 }
-                this.maxCards = Math.max(Math.floor(spaceForActivities / cardSpace), 0)
+                this.maxCards = Math.max(Math.floor(spaceForActivities / cardSpace), 1)
             } else {
                 let cardSpace = 81
                 let spaceForActivities = (row.clientWidth - status.clientWidth - stats.clientWidth - 1)
                 if (stats.clientWidth === 0) {
                     spaceForActivities -= 5 // "padding"
                 }
-                this.maxCards = Math.max(Math.floor(spaceForActivities / cardSpace), 0)
+                this.maxCards = Math.max(Math.floor(spaceForActivities / cardSpace), 1)
             }
         }
     },
     components: { ActivityCard, Avatar, Voter },
     mounted() {
         window.addEventListener('resize', this.handleResize)
-        this.isSummary && this.calcMaxCards()
+        this.calcMaxCards()
     },
     beforeDestroy: function () {
         window.removeEventListener('resize', this.handleResize)
@@ -145,9 +121,6 @@ export default {
 
 <style lang="scss" scoped>
 // global
-$color-story-bg: #DFF3FD;
-$color-highlight: #0266B3;
-
 //question:
 @import "../css/imports.scss";
 
@@ -155,17 +128,13 @@ $color-highlight: #0266B3;
     background-color: $color-story-bg;
 }
 
-//todo: smallest responsive version
-.story.story--summary {
-    padding-bottom: 40px;
-}
 
 
 
 /* layout */
 
-.story.story--single {
-    margin-bottom: 4em;
+.story-summary {
+    padding-bottom: 4em;
 }
 
 .story__col-1 {
@@ -181,7 +150,10 @@ $color-highlight: #0266B3;
 .story__col-3 {
     padding-right: 1em;
     padding-left: 2em;
+    min-width: auto;
+    width: auto;
 }
+
 
 .story__row-1 {
     @include flex(row);
@@ -190,6 +162,12 @@ $color-highlight: #0266B3;
 .story__row-2 {
     @include flex(row);
 }
+
+
+.hide--medium {
+    display: none;
+}
+
 
 
 
@@ -210,12 +188,12 @@ $color-highlight: #0266B3;
 }
 
 .story__intro {
-    margin-top: 1em;
-    margin-bottom: .3em;
+    padding-top: 2em;
+    padding-bottom: .3em;
 }
 
 .story__title {
-    @include fancy(1rem);
+    @include text-fancy(1rem);
     line-height: 1.2rem;
     color: $color-highlight;
     padding-bottom: .2rem;
@@ -229,6 +207,8 @@ $color-highlight: #0266B3;
         margin: auto;
     }
 }
+
+
 
 
 /* row 2 */
@@ -248,25 +228,12 @@ $color-highlight: #0266B3;
 }
 
 
-.story__col-3.story__votes {
-    margin-top: $activity-top-gutter;
-    flex: 0 0;
-    margin-right: 3em;
-    padding: 0;
-}
-
-
-.button.button--discussion {
-    top: 14px;
-    left: calc(50% - 75px);
-}
-
 
 .story__col-3.story__stats {
     @include flex(column);
-    @include fancy(.7rem);
+    @include text-fancy(.7rem);
     justify-content: space-between; // squash the text a bit down to look more in line with activity tops
-    padding-top: 2em;
+    padding-top: 4em;
     padding-bottom: 2em;
 }
 
@@ -279,16 +246,12 @@ $color-highlight: #0266B3;
     display: none;
 }
 
-@media ($br-small) {
-    .story__col-3 {
-        width: 202px;
-        min-width: 202px;
-    }
 
+
+@media ($br-small) {
     .story__col-2 {
         padding-left: 10px;
     }
-
     .story__status {
         @include flex(column);
         position: relative;
@@ -303,8 +266,16 @@ $color-highlight: #0266B3;
     }
 }
 
+@media ($br-medium) {
+    .story__col-3 {
+        width: 202px;
+        min-width: 202px;
+        margin-left: 0;
+    }
+}
+
 @media ($br-large) {
-        .story__cutoff {
+    .story__cutoff {
         display: block;
     }
 }

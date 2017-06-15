@@ -1,22 +1,20 @@
 @import './colors.scss';
-@import './text.scss';
 
-$br-small: 'min-width: 376px';
-$br-medium: 'min-width: 670px';
+$br-small: 'min-width: 420px';
+$br-medium: 'min-width: 768px';
 $br-large: 'min-width: 1024px';
 
 $activity-width: 90px;
+$activity-width-small: 80px;
+$avatar-width: $activity-width;
+$avatar-width-small: $activity-width-small;
+
+
+
 $activity-top-gutter: 32px;
-$avatar-size: 50px;
 $activity-gutter-small: 1px;
 $activity-gutter: 9.5px;
 
-
-@mixin fancy($size: 1em) {
-    font-family: "Libre Baskerville", serif;
-    font-style: italic;
-    font-size: $size;
-}
 
 @mixin circle($radius) {
     width: $radius;
@@ -28,4 +26,27 @@ $activity-gutter: 9.5px;
 @mixin flex($dir) {
     display: flex;
     flex-direction: $dir;
+}
+
+
+@mixin text-action($size: .8em) {
+    text-transform: uppercase;
+    color: $color-grey-light;
+    font-size: $size;
+}
+
+@mixin text-number($size: 1.2em) {
+    font-weight: bold;
+}
+
+@mixin text-fancy($size: 1em) {
+    font-family: "Libre Baskerville", serif;
+    font-style: italic;
+    font-size: $size;
+}
+
+@mixin text-username($size: 1.067em) {
+    color: $color-highlight;
+    font-weight: bold;
+    font-size: $size;
 }

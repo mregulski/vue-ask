@@ -1,5 +1,12 @@
 @import './base.css';
 @import './imports.scss';
+@import './text.scss';
+
+html,body {
+    height: 100%;
+    background: #FFE1AD;
+	font-family: 'Cuprum', sans-serif;
+}
 
 .activity-title {
     display: block;
@@ -61,4 +68,11 @@
     border-color: black;
     padding: 5px 0;
     color: black;
+}
+.number {
+    font-weight: 600;
+}
+
+.text-action {
+    @include text-action();
 }
