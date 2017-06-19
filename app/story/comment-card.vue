@@ -2,11 +2,11 @@
     <div>
         <article class="comment card" :class="depthClass">
             <div class="comment__avatar">
-                <avatar :src="comment.author.avatar"></avatar>
+                <avatar @click="selectUser(comment.author)" :src="comment.author.avatar"></avatar>
             </div>
             <div class="comment__body">
                 <div class="comment__meta">
-                    <span class="comment__author"> {{ comment.author.name }} </span>
+                    <span @click="selectUser(comment.author)" class="comment__author"> {{ comment.author.name }} </span>
                     <span class="comment__action">commented it</span>
                     <span class="comment__date">{{ comment.time }}</span>
                 </div>
@@ -26,6 +26,7 @@
 
 <script>
 import { Avatar, Voter } from '../components/'
+import Bus from '../event-bus.js'
 export default {
     name: 'CommentCard',
     props: {
@@ -55,6 +56,9 @@ export default {
     methods: {
         vote: function (delta) {
             this.comment.score += delta
+        },
+        selectUser(user) {
+            Bus.$emit('user-select', user)
         }
     },
     components: { Avatar, Voter }

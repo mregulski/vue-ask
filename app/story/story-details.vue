@@ -2,12 +2,12 @@
     <article class="card story-details">
         <div class="story-details__wrapper">
             <div class="story__avatar story__col-1">
-                <avatar :src="story.author.avatar">
+                <avatar @click="userSelect(story.author)" :src="story.author.avatar">
                 </avatar>
             </div>
             <div class="story__header story__col-2" href="#">
                 <p class="story__intro">
-                    <span class="username">{{story.author.name}}</span>
+                    <span @click="userSelect(story.author)" class="username">{{story.author.name}}</span>
                     <span class="small caps"> is asking:</span>
                 </p>
                 <h2 class="story__title">{{story.question}}</h2>
@@ -21,7 +21,7 @@
             <div class="story__content story__col-2">
                 <p>{{ story.content }}</p>
             </div>
-            <voter class="story__votes story__col-3" :score="story.score"></voter>
+            <voter @upvote="vote(1)" @downvote="vote(-1)" class="story__votes story__col-3" :score="story.score"></voter>
         </div>
         <a class="button button--discussion">GIVE new answer</a>
     </article>
@@ -29,12 +29,20 @@
 
 <script>
 import { Avatar, Voter } from '../components/'
+import Bus from '../event-bus.js'
+
 export default {
     props: ['story'],
     components: { Avatar, Voter },
     methods: {
         follow(doFollow) {
             story.followed = !!doFollow
+        },
+        vote(amount) {
+            this.story.score += amount
+        },
+        userSelect(user) {
+            Bus.$emit('user-select', user)
         }
     }
 }
