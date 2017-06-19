@@ -5,12 +5,12 @@
     <article class="card story-summary">
         <header class="story__row-1">
             <div class="story__avatar story__col-1">
-                <avatar :src="story.author.avatar">
+                <avatar @click="userSelect(story.author)" :src="story.author.avatar">
                 </avatar>
             </div>
             <div class="story__header story__col-2" href="#">
                 <p class="story__intro">
-                    <span class="username">{{story.author.name}}</span>
+                    <span @click="userSelect(story.author)" class="username">{{story.author.name}}</span>
                     <span class="small caps"> is asking:</span>
                 </p>
                 <h2 class="story__title" @click="select(story)">{{story.question}}</h2>
@@ -82,6 +82,9 @@ export default {
     methods: {
         select(story) {
             Bus.$emit('story-select', story)
+        },
+        userSelect(user) {
+            Bus.$emit('user-select', user)
         },
         handleResize(event) {
             this.calcMaxCards()

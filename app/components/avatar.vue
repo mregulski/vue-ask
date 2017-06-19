@@ -1,10 +1,11 @@
 <template>
     <figure class="avatar-box" :class="{'avatar-box--large': large}">
-        <img :src="src" />
+        <img @click="clicked" :src="src" />
     </figure>
 </template>
 
 <script>
+import Bus from '../event-bus.js'
 export default {
     props: {
         src: {
@@ -16,15 +17,18 @@ export default {
             type: Boolean,
             default: false
         }
+    },
+    methods: {
+        clicked() {
+            this.$emit('click')
+        }
     }
 }
 </script>
 
 <style scoped lang="scss">
 @import "../css/imports.scss";
-$avatar-size-small: 40px;
-$avatar-size: 50px;
-$avatar-size-large: 85px;
+
 
 .avatar-box {
     @include circle($avatar-size-small);

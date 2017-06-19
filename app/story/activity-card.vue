@@ -4,7 +4,7 @@ A card representing an activity in a question e.g. users answering on commenting
 
 <template>
     <div v-if="card.type === 'single'" class="activity activity--single">
-        <avatar :src="avatarUrl">
+        <avatar @click="userSelect(card.user)" :src="avatarUrl">
         </avatar>
         <span class="activity-title">Commented</span>
         <div class="dot dot--inactive"></div>
@@ -19,7 +19,9 @@ A card representing an activity in a question e.g. users answering on commenting
 </template>
 
 <script>
-import Avatar from '../components/avatar.vue'
+import {Avatar} from '../components/'
+import Bus from '../event-bus.js'
+
 export default {
     props: ['card'],
     data: function () {
@@ -34,6 +36,11 @@ export default {
             if (this.card.user) { //todo: nullcehcking and shit
                 return this.card.user.avatar
             }
+        }
+    },
+    methods: {
+        userSelect(user) {
+            Bus.$emit('user-select', user)
         }
     },
     components: { Avatar }

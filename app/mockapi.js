@@ -3,20 +3,20 @@ export default {
         // pretend it's a response from some api
         // ignore limit/offset because it's not the point
         return new Promise((resolve, reject) => {
-            setTimeout(() => resolve(_stories), 500);
+            setTimeout(() => resolve(_stories), 200);
         })
     },
 
     getComments(storyId) {
         // just give the same comments for each story
         return new Promise((resolve, reject) => {
-            setTimeout(() => resolve(_comments), 500)
+            setTimeout(() => resolve(_comments), 200)
         })
     },
 
     getUser(userId) {
         return new Promise((resolve, reject) => {
-            setTimeout(() => resolve(_users.random()), 500)
+            setTimeout(() => resolve(_users.random()), 200)
         })
     }
 }
@@ -27,18 +27,21 @@ function User(id, name) {
     this.avatar = "https://source.unsplash.com/random/100x100?face&sig=" + id
 }
 
-const _users = ["Eva", "S.E.N. Waweru", "Patricia", "David", "Joseph", "Andrew", "Dr Halima", "Bob", "Anna", "Xavier", "Sonja"]
+
+const names = ["Eva", "S.E.N. Waweru", "Patricia", "David", "Joseph", "Andrew", "Dr Halima", "Bob", "Anna", "Xavier", "Sonja"]
+
+let _users = {}
+_users.list = names
     .map((name, i) => new User(i, name))
-    .reduce((acc, cur) => { // build a 'hashmap'
-        acc[cur.name] = cur
-        return acc
-    }, {})
+
+_users.list.forEach(u => _users[u.name] = u)
+
 
 _users.random = function () {
-    let keys = Object.keys(this)
-    return this[keys[Math.floor(Math.random() * keys.length)]]
+    return this.list[Math.floor(Math.random() * this.list.length)]
 }.bind(_users)
 
+window.$users = _users;
 const _stories = [
     {
         id: 0,

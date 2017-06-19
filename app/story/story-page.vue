@@ -6,14 +6,14 @@
         <aside class="comments">
             <p class="comments__summary">
                 <span class="number">{{ comments.length }}</span>
-                 peers already answered {{story.author.name}}</p>
+                peers already answered {{story.author.name}}</p>
             <comment-card v-for="comment in comments" :comment="comment"></comment-card>
         </aside>
     </div>
 </template>
 
 <script>
-import {StoryDetails, CommentCard} from './'
+import { CommentCard, StoryDetails } from './'
 import Api from '../mockapi.js'
 
 
@@ -28,7 +28,7 @@ export default {
     },
     components: { StoryDetails, CommentCard },
     created() {
-        Api.getComments(this.story.id).then(result => {this.comments =result})
+        Api.getComments(this.story.id).then(result => { this.comments = result })
     }
 
 }
@@ -39,6 +39,7 @@ export default {
 .comments {
     @include flex(column);
 }
+
 .comments__summary {
     @include text-fancy();
     margin: 0 auto 1em auto;
@@ -47,5 +48,4 @@ export default {
 .comments__summary .number {
     font-weight: 600;
 }
-
 </style>

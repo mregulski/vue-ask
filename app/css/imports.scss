@@ -4,11 +4,16 @@ $br-small: 'min-width: 420px';
 $br-medium: 'min-width: 768px';
 $br-large: 'min-width: 1024px';
 
+// boxes
 $activity-width: 90px;
 $activity-width-small: 80px;
 $avatar-width: $activity-width;
 $avatar-width-small: $activity-width-small;
 
+// picture itself
+$avatar-size-small: 40px;
+$avatar-size: 50px;
+$avatar-size-large: 85px;
 
 
 $activity-top-gutter: 32px;
@@ -49,4 +54,14 @@ $activity-gutter: 9.5px;
     color: $color-highlight;
     font-weight: bold;
     font-size: $size;
+}
+
+@mixin stripes($fg: $color-grey-lighter, $bg: white, $angle: 45, $width: 2px) {
+    background: repeating-linear-gradient(
+        #{$angle}deg,
+        $fg,
+        $fg $width,
+        $bg $width,
+        $bg 2*$width
+    )
 }

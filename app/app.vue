@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <header class="site-header">
-            <a @click="changeSelection({})" class="button button--back--circle">
+            <a @click="setActiveStory({})" class="button button--back--circle">
                 <span class="icon ion-ios-arrow-back"></span>
             </a>
             <div class="main-column">
@@ -30,11 +30,11 @@
         </header>
         <div id="backplane">
             <main id="content" class="main-column">
-                <div class="modal">
-                    <user-modal class="modal-user" :user="user"></user-modal>
-                </div>
                 <home-page v-if="!isStorySelected"></home-page>
                 <story-page v-else :story="selectedStory" :isSummary="true"></story-page>
+                <div v-if="isUserSelected" class="modal">
+                    <user-modal @close="modalClosed" class="modal-user" :user="selectedUser"></user-modal>
+                </div>
             </main>
         </div>
     </div>
@@ -53,19 +53,30 @@ export default {
             appname: "vue-ask",
             // page: "question",
             page: "home",
-            user: {},
+            selectedUser: {},
             selectedStory: {}
         }
     },
     computed: {
         isStorySelected() {
             return Object.keys(this.selectedStory).length != 0
+        },
+        isUserSelected() {
+            return Object.keys(this.selectedUser).length != 0
         }
     },
     methods: {
-        changeSelection(story) {
-            console.log("select: ", story)
+        setActiveStory(story) {
+            console.log("story-select: ", story)
             this.selectedStory = story
+        },
+        setActiveUser(user) {
+            console.log('user-select: ', user)
+            this.selectedUser = user;
+        },
+        modalClosed() {
+            this.setActiveUser({})
+            document.body.classList.remove('modal-open')
         }
     },
     components: {
@@ -74,11 +85,15 @@ export default {
         UserModal
     },
     created() {
-        Bus.$on('story-select', story => this.changeSelection(story))
-        Api.getUser(3).then(user => {
-            console.log('user:', user)
-            this.user = user
+        Bus.$on('story-select', story => this.setActiveStory(story))
+        Bus.$on('user-select', user => {
+            document.body.classList.add('modal-open')
+            this.setActiveUser(user)
         })
+        // Api.getUser(3).then(user => {
+        //     console.log('user:', user)
+        //     this.selectedUser = user
+        // })
     }
 }
 </script>
@@ -94,6 +109,10 @@ export default {
     overflow: auto;
 }
 
+.modal-open {
+    // overflow: hidden;
+}
+
 #backplane {
     min-width: 320px; // height: calc(100% - 2em - 40px);
     // height: 100%;
@@ -102,16 +121,21 @@ export default {
 
 .modal {
     width: 100%;
-    min-height: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, .5);
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: fixed;
+    top:0;
+    left:0;
+    // top: 0;
     z-index: 10;
 }
 
 .modal-user {
+    position: relative;
     background: white;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
 }
 
 .site-header {
@@ -132,6 +156,7 @@ export default {
 
 .site-header__first {
     @include flex(row);
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
@@ -146,7 +171,6 @@ export default {
 }
 
 
-
 .site-header__search {
     @include flex(row);
 }
@@ -159,7 +183,6 @@ export default {
     font-family: Cuprum;
     letter-spacing: 1px;
 }
-
 
 
 
@@ -209,19 +232,24 @@ export default {
     top: 0;
 }
 
+
+@media ($br-medium) {
+    .modal-user {
+        min-height: 0;
+    }
+}
 @media ($br-large) {
     #backplane {
         margin: 0px 40px 40px 40px;
         padding: 0 200px 2em 200px;
     }
     .site-header {
-        padding: 2rem 240px 1.5rem 240px;
+        padding: 2rem 240px 1.5em 240px;
     }
 
     [class*="--back"].button {
         left: 60px;
     }
-
 
     .modal-user {
         background: white;
