@@ -2,27 +2,19 @@
 body {
     font-size: 12px;
 }
-h1 {
-    font-size: 2em;
-}
-
-h2 {
-    font-size:1em;
-}
 
 .username {
     @include text-username;
 }
+.username:visited {
+    @include text-username;
+}
 
+.action {
+    @include text-action;
+}
 @media ($br-small) {
     body {
         font-size: 14px;
     }
-    h2 {
-        font-size: 1.067em;
-    }
 }
-
-@media ($br-medium) {}
-
-@media ($br-large) {}

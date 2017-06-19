@@ -2,7 +2,7 @@
     <div>
         <story-card v-for="story in stories" :isSummary="true" :story="story" :key="story.id"></story-card>
         <div class="card main-column">
-            <a class="more-stories">load more questions</a>
+            <a href="#" class="more-stories">load more questions</a>
         </div>
     </div>
 </template>
@@ -29,5 +29,12 @@ export default {
 </script>
 
 <style>
+a.more-stories {
+    display: block;
+    padding: 2.5em 1em;
+    color: #e1173f;
+    font-weight: bold;
+    text-decoration: none;
+}
 
 </style>

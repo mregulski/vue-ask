@@ -184,7 +184,9 @@ export default {
     letter-spacing: 1px;
 }
 
-
+.button {
+    cursor: pointer;
+}
 
 
 .button.button--search {
@@ -257,4 +259,14 @@ export default {
         margin: 1em auto;
     }
 }
+
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+    color: inherit;
+}
+
 </style>

@@ -1,6 +1,8 @@
 <template>
     <figure class="avatar-box" :class="{'avatar-box--large': large}">
-        <img @click="clicked" :src="src" />
+        <a href="#">
+            <img @click="clicked" :src="src" />
+        </a>
     </figure>
 </template>
 
@@ -34,6 +36,10 @@ export default {
     @include circle($avatar-size-small);
     overflow: hidden;
     margin: auto;
+}
+
+.avatar-box a {
+    display: block;
 }
 
 .avatar-box img {

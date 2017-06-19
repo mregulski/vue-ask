@@ -138,12 +138,14 @@ export default {
     height: 100%;
     overflow-y: scroll;
 }
+
 .profile__close {
     position: absolute;
     color: $color-grey-light;
     top: 10px;
     right: 10px;
 }
+
 .profile__header {
     @include flex(column);
     width: 300px;
@@ -280,8 +282,7 @@ $profileArrowsOffset: 2px; //fixes centering to look more centered
 }
 
 .profile__hotstory {
-    width: 100%;
-    // max-width: 100%;
+    width: 100%; // max-width: 100%;
 }
 
 .hotstory__wrapper {
@@ -335,7 +336,7 @@ $profileArrowsOffset: 2px; //fixes centering to look more centered
     width: 100%;
 }
 
-.hotstory__stats > p {
+.hotstory__stats>p {
     width: 50%;
     margin: .3em auto;
 }
@@ -360,7 +361,7 @@ $profileArrowsOffset: 2px; //fixes centering to look more centered
         width: 100%;
     }
 
-    .hotstory__stats > p {
+    .hotstory__stats>p {
         width: auto;
     }
 }
@@ -372,8 +373,7 @@ $profileArrowsOffset: 2px; //fixes centering to look more centered
         margin: 0 auto;
     }
     .profile {
-        height: calc(100% - 2em);
-        // padding-left: 123px;
+        height: calc(100% - 2em); // padding-left: 123px;
         // padding-right: 123px;
         padding-top: 26px;
         padding-bottom: 16px;
@@ -383,6 +383,9 @@ $profileArrowsOffset: 2px; //fixes centering to look more centered
     }
 
     .profile__main {
+        width: 600px;
+    }
+    .profile__nav {
         width: 600px;
     }
     .profile__bio {

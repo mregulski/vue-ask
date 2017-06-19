@@ -10,10 +10,10 @@
             </div>
             <div class="story__header story__col-2" href="#">
                 <p class="story__intro">
-                    <span @click="userSelect(story.author)" class="username">{{story.author.name}}</span>
-                    <span class="small caps"> is asking:</span>
+                    <a href="#" @click="userSelect(story.author)" class="username">{{story.author.name}}</a>
+                    <span class="action"> is asking:</span>
                 </p>
-                <h2 class="story__title" @click="select(story)">{{story.question}}</h2>
+                <h2 class="story__title" @click="select(story)"><a href="#">{{story.question}}</a></h2>
             </div>
 
             <div class="story__col-3 story__cutoff">
@@ -31,11 +31,11 @@
             </div>
             <div class="story__stats story__col-3">
                 <span class="story__stats-item">
-                    <span class="number">1</span>related discussion</span>
+                    <span class="number">{{ stats.relatedDiscussions }}</span>related discussion</span>
                 <span class="story__stats-item">
-                    <span class="number">6</span>peers involved</span>
+                    <span class="number">{{ stats.peersInvolved }}</span>peers involved</span>
                 <span class="story__stats-item">
-                    <span class="number">3</span>conversations</span>
+                    <span class="number">{{ stats.conversations }}</span>conversations</span>
             </div>
 
         </div>
@@ -60,6 +60,13 @@ export default {
             return {
                 type: "summary",
                 count: this.story.activity.length - this.maxCards + 1
+            }
+        },
+        stats() {
+            return {
+                relatedDiscussions: Math.floor(Math.random()*20+1),
+                peersInvolved: Math.floor(Math.random()*20+1),
+                conversations: Math.floor(Math.random()*20+1)
             }
         },
         cardsToShow() {
@@ -174,6 +181,7 @@ export default {
 
 
 
+
 /* specific parts */
 
 
@@ -248,7 +256,6 @@ export default {
 .story__cutoff {
     display: none;
 }
-
 
 
 @media ($br-small) {

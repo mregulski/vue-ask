@@ -34,9 +34,9 @@ $activity-gutter: 9.5px;
 }
 
 
-@mixin text-action($size: .8em) {
+@mixin text-action($size: .9em) {
     text-transform: uppercase;
-    color: $color-grey-light;
+    color: darken($color-grey-light, 5%);
     font-size: $size;
 }
 
