@@ -11,18 +11,21 @@
                         <span class="icon ion-plus-circled"></span>
                     </a>
                     <div class="flex-fill"></div>
-                    <div class="site-header__mode-switch">
+                    <div v-if="!isStorySelected" class="site-header__mode-switch">
                         <input type="radio">My shelf</input>
                         <input type="radio">All questions</input>
                     </div>
-                    <div class="site-header__sorting">
+                    <div v-if="!isStorySelected" class="site-header__sorting">
                         <span>Sort by:
                             <a>recent</a> or
                             <a>hot</a>
                         </span>
                     </div>
+                    <div v-if="isStorySelected">
+                        <span class="lastDiscussed">last discussed {{ lastDiscussed }} ago</span>
+                    </div>
                 </div>
-                <div class="site-header__search flex flex-row">
+                <div v-if="!isStorySelected" class="site-header__search flex flex-row">
                     <input class="search__input flex-fill"></input>
                     <a class="button button--search">Search</a>
                 </div>
@@ -63,6 +66,10 @@ export default {
         },
         isUserSelected() {
             return Object.keys(this.selectedUser).length != 0
+        },
+        lastDiscussed() {
+            //return selectedStory.lastDiscussed
+            return '3 days'
         }
     },
     methods: {
@@ -170,6 +177,9 @@ export default {
     text-align: right;
 }
 
+.lastDiscussed {
+    @include text-fancy(.85em);
+}
 
 .site-header__search {
     @include flex(row);

@@ -7,14 +7,14 @@
             </div>
             <div class="story__header story__col-2" href="#">
                 <p class="story__intro">
-                    <span @click="userSelect(story.author)" class="username">{{story.author.name}}</span>
-                    <span class="small caps"> is asking:</span>
+                    <a href="#" @click="userSelect(story.author)" class="username">{{story.author.name}}</a>
+                    <span class="action"> is asking:</span>
                 </p>
                 <h2 class="story__title">{{story.question}}</h2>
             </div>
             <div class="story__col-3 story__unfollow">
-                <a v-if="story.followed" @click="follow(false)">unfollow</a>
-                <a v-else @click="follow(true)">follow</a>
+                <a href="#" v-if="isFollowed" @click="isFollowed = false">unfollow</a>
+                <a href="#" v-else @click="isFollowed = true">follow</a>
             </div>
             <div class="story__filler story__col-1">
             </div>
@@ -33,10 +33,17 @@ import Bus from '../event-bus.js'
 
 export default {
     props: ['story'],
+    data: function() {
+        return {
+            isFollowed: true
+        }
+    },
     components: { Avatar, Voter },
     methods: {
         follow(doFollow) {
-            story.followed = !!doFollow
+            console.log('follow:',doFollow)
+            this.story.followed = doFollow
+            console.log('strory.followed:', this.story.followed)
         },
         vote(amount) {
             this.story.score += amount

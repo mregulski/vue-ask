@@ -122,8 +122,7 @@ $comment-indent-small: 5px;
 .comment__body {
     flex: 1;
     padding-top: 1em;
-    padding-bottom: 2em;
-    // padding-left: 1em;
+    padding-bottom: 2em; // padding-left: 1em;
 }
 
 .comment__content {
@@ -134,7 +133,8 @@ $comment-indent-small: 5px;
 
 .comment__votes {
     width: auto;
-    margin-top: 4em;
+    margin-top: auto;
+    margin-bottom: auto;
     margin-left: 2em;
     margin-right: 3em;
 }
@@ -152,11 +152,15 @@ $comment-indent-small: 5px;
     }
 
     .comment__meta {
-        margin-bottom: 1em;
+        margin-bottom: 0;
+        margin-left: 1.1em;
+        padding-bottom: 0;
+        border-bottom: none;
     }
 
     .comment__content {
         margin: 0;
+        padding-top: 1em;
     }
 
     .comment[class*='depth-'] {
@@ -168,12 +172,7 @@ $comment-indent-small: 5px;
         background: transparent;
     }
 
-    .comment__votes {
-    width: auto;
-    margin-top: 2em;
-    margin-left: 2em;
-    margin-right: 3em;
-}
+
 }
 
 @media ($br-medium) {
@@ -181,7 +180,5 @@ $comment-indent-small: 5px;
     .comment__votes {
         width: 202px
     }
-
-
 }
 </style>
