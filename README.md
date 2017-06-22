@@ -1,5 +1,7 @@
 # vue-ask
 
+A demo frontend for a Q&A website.
+
 ## Install & run
 1. `git clone https://github.com/mregulski/vue-ask.git`
 2. `npm install`
